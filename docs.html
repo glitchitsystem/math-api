@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .endpoint {
+            background: white;
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        .get { background-color: #61affe; }
+        .post { background-color: #49cc90; }
+        .put { background-color: #fca130; }
+        .delete { background-color: #f93e3e; }
+        .code {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e1e5e9;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .response {
+            background: #e8f5e8;
+            border: 1px solid #c3e6c3;
+        }
+        .error {
+            background: #ffeaea;
+            border: 1px solid #f5c6cb;
+        }
+        .auth-required {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .quick-test {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .credentials {
+            background: #fff8e1;
+            border: 1px solid #ffecb3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧮 Math API Documentation</h1>
+        <p>A simple REST API for mathematical operations with JWT authentication</p>
+        <p><strong>Base URL:</strong> http://localhost:3000</p>
+    </div>
+
+    <div class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#auth">Authentication</a>
+        <a href="#endpoints">Endpoints</a>
+        <a href="#testing">Testing</a>
+        <a href="#postman">Postman Collection</a>
+    </div>
+
+    <section id="overview">
+        <h2>📋 Overview</h2>
+        <p>The Math API provides various mathematical operations through RESTful endpoints. All math operations require JWT authentication.</p>
+        
+        <div class="credentials">
+            <h3>🔑 Default Credentials</h3>
+            <p><strong>Username:</strong> admin</p>
+            <p><strong>Password:</strong> password</p>
+            <p><em>⚠️ Change these in production!</em></p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                    <th>Auth Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="method post">POST</span></td>
+                    <td>/auth/login</td>
+                    <td>Get JWT token</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td>/math/calculate</td>
+                    <td>Basic math operations</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td><span class="method post">POST</span></td>
+                    <td>/math/calculate</td>
+                    <td>Array operations</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td><span class="method put">PUT</span></td>
+                    <td>/math/power</td>
+                    <td>Power calculations</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td>/math/factorial</td>
+                    <td>Factorial calculations</td>
+                    <td>✅</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="auth">
+        <h2>🔐 Authentication</h2>
+        
+        <div class="endpoint">
+            <h3><span class="method post">POST</span> /auth/login</h3>
+            <p>Authenticate and receive a JWT token</p>
+            
+            <h4>Request:</h4>
+            <div class="code">
+POST /auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password"
+}
+            </div>
+            
+            <h4>Success Response (200):</h4>
+            <div class="code response">
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": "24h"
+}
+            </div>
+        </div>
+
+        <div class="quick-test">
+            <h4>🚀 Quick Test</h4>
+            <div class="code">
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password"}'
+            </div>
+        </div>
+    </section>
+
+    <section id="endpoints">
+        <h2>🔢 Math Endpoints</h2>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /math/calculate</h3>
+            <p>Basic operations on two numbers</p>
+            
+            <div class="auth-required">
+                🔒 <strong>Authentication Required:</strong> Include <code>Authorization: Bearer &lt;token&gt;</code> header
+            </div>
+            
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>operation:</strong> add, subtract, multiply, divide</li>
+                <li><strong>a:</strong> First number</li>
+                <li><strong>b:</strong> Second number</li>
+            </ul>
+            
+            <h4>Example:</h4>
+            <div class="code">
+GET /math/calculate?operation=add&a=10&b=5
+Authorization: Bearer YOUR_TOKEN_HERE
+            </div>
+            
+            <h4>Response:</h4>
+            <div class="code response">
+{
+  "operation": "add",
+  "operands": { "a": 10, "b": 5 },
+  "result": 15,
+  "timestamp": "2025-11-02T12:00:00.000Z"
+}
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method post">POST</span> /math/calculate</h3>
+            <p>Operations on arrays of numbers</p>
+            
+            <div class="auth-required">
+                🔒 <strong>Authentication Required</strong>
+            </div>
+            
+            <h4>Supported Operations:</h4>
+            <ul>
+                <li><strong>sum:</strong> Add all numbers</li>
+                <li><strong>product:</strong> Multiply all numbers</li>
+                <li><strong>average:</strong> Calculate mean</li>
+                <li><strong>max:</strong> Find maximum</li>
+                <li><strong>min:</strong> Find minimum</li>
+            </ul>
+            
+            <h4>Request:</h4>
+            <div class="code">
+POST /math/calculate
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "operation": "sum",
+  "numbers": [1, 2, 3, 4, 5]
+}
+            </div>
+            
+            <h4>Response:</h4>
+            <div class="code response">
+{
+  "operation": "sum",
+  "numbers": [1, 2, 3, 4, 5],
+  "result": 15,
+  "count": 5,
+  "timestamp": "2025-11-02T12:00:00.000Z"
+}
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method put">PUT</span> /math/power</h3>
+            <p>Calculate power operations (base^exponent)</p>
+            
+            <div class="auth-required">
+                🔒 <strong>Authentication Required</strong>
+            </div>
+            
+            <h4>Request:</h4>
+            <div class="code">
+PUT /math/power
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "base": 2,
+  "exponent": 8
+}
+            </div>
+            
+            <h4>Response:</h4>
+            <div class="code response">
+{
+  "operation": "power",
+  "base": 2,
+  "exponent": 8,
+  "result": 256,
+  "expression": "2^8",
+  "timestamp": "2025-11-02T12:00:00.000Z"
+}
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /math/factorial</h3>
+            <p>Calculate factorial of a number (n!)</p>
+            
+            <div class="auth-required">
+                🔒 <strong>Authentication Required</strong>
+            </div>
+            
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>n:</strong> Non-negative integer (0-170)</li>
+            </ul>
+            
+            <h4>Example:</h4>
+            <div class="code">
+GET /math/factorial?n=5
+Authorization: Bearer YOUR_TOKEN_HERE
+            </div>
+            
+            <h4>Response:</h4>
+            <div class="code response">
+{
+  "operation": "factorial",
+  "input": 5,
+  "result": 120,
+  "expression": "5!",
+  "timestamp": "2025-11-02T12:00:00.000Z"
+}
+            </div>
+        </div>
+    </section>
+
+    <section id="testing">
+        <h2>🧪 Testing</h2>
+        
+        <div class="quick-test">
+            <h3>Complete Test Flow</h3>
+            <div class="code">
+# 1. Get token
+TOKEN=$(curl -s -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password"}' | \
+  grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+
+# 2. Test basic math
+curl -X GET "http://localhost:3000/math/calculate?operation=add&a=5&b=3" \
+  -H "Authorization: Bearer $TOKEN"
+
+# 3. Test array operations
+curl -X POST http://localhost:3000/math/calculate \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"operation": "average", "numbers": [10, 20, 30]}'
+
+# 4. Test power operation
+curl -X PUT http://localhost:3000/math/power \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"base": 3, "exponent": 4}'
+            </div>
+        </div>
+    </section>
+
+    <section id="postman">
+        <h2>📮 Postman Collection</h2>
+        <p>Import the ready-made Postman collection for easy testing:</p>
+        
+        <div class="quick-test">
+            <h3>Files Available:</h3>
+            <ul>
+                <li><strong>Math_API_Collection.postman_collection.json</strong> - Complete Postman collection</li>
+                <li><strong>POSTMAN_TROUBLESHOOTING.md</strong> - Troubleshooting guide for common issues</li>
+                <li><strong>test-api.sh</strong> - Shell script for automated testing</li>
+            </ul>
+            
+            <h3>How to Import in Postman:</h3>
+            <ol>
+                <li>Open Postman</li>
+                <li>Click "Import" button</li>
+                <li>Select "Math_API_Collection.postman_collection.json"</li>
+                <li>Run "Login" request first to get token</li>
+                <li>Token is automatically saved for other requests</li>
+            </ol>
+        </div>
+    </section>
+
+    <section>
+        <h2>❗ Error Codes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Common Causes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>400</td>
+                    <td>Bad Request</td>
+                    <td>Missing parameters, invalid JSON, division by zero</td>
+                </tr>
+                <tr>
+                    <td>401</td>
+                    <td>Unauthorized</td>
+                    <td>Missing token, invalid credentials</td>
+                </tr>
+                <tr>
+                    <td>403</td>
+                    <td>Forbidden</td>
+                    <td>Expired or invalid token</td>
+                </tr>
+                <tr>
+                    <td>404</td>
+                    <td>Not Found</td>
+                    <td>Invalid endpoint URL</td>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>Internal Server Error</td>
+                    <td>Server error, malformed JSON</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="footer">
+        <p>Math API v1.0.0 | Built with Express.js & JWT Authentication</p>
+        <p>📚 Additional Documentation: <strong>README.md</strong> | <strong>API_DOCUMENTATION.md</strong></p>
+    </div>
+</body>
+</html>

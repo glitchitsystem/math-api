@@ -1,0 +1,379 @@
+{
+  "info": {
+    "name": "Math API Collection",
+    "description": "Complete collection for testing the Math API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.token);",
+                  "    pm.test('Login successful', function () {",
+                  "        pm.expect(response.message).to.eql('Login successful');",
+                  "    });",
+                  "} else {",
+                  "    pm.test('Login failed', function () {",
+                  "        pm.response.to.have.status(401);",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Math Operations",
+      "item": [
+        {
+          "name": "Basic Calculator - Addition",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/calculate?operation=add&a=10&b=5",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ],
+              "query": [
+                {
+                  "key": "operation",
+                  "value": "add"
+                },
+                {
+                  "key": "a",
+                  "value": "10"
+                },
+                {
+                  "key": "b",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Basic Calculator - Division",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/calculate?operation=divide&a=20&b=4",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ],
+              "query": [
+                {
+                  "key": "operation",
+                  "value": "divide"
+                },
+                {
+                  "key": "a",
+                  "value": "20"
+                },
+                {
+                  "key": "b",
+                  "value": "4"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Array Operations - Sum",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"sum\",\n  \"numbers\": [1, 2, 3, 4, 5]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/math/calculate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Array Operations - Average",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"average\",\n  \"numbers\": [10, 20, 30, 40, 50]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/math/calculate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Power Operation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base\": 2,\n  \"exponent\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/math/power",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "power"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Factorial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/factorial?n=7",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "factorial"
+              ],
+              "query": [
+                {
+                  "key": "n",
+                  "value": "7"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Info",
+      "item": [
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Unauthorized Request",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/calculate?operation=add&a=1&b=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ],
+              "query": [
+                {
+                  "key": "operation",
+                  "value": "add"
+                },
+                {
+                  "key": "a",
+                  "value": "1"
+                },
+                {
+                  "key": "b",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Operation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/calculate?operation=invalid&a=1&b=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ],
+              "query": [
+                {
+                  "key": "operation",
+                  "value": "invalid"
+                },
+                {
+                  "key": "a",
+                  "value": "1"
+                },
+                {
+                  "key": "b",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Division by Zero",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/math/calculate?operation=divide&a=5&b=0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "math",
+                "calculate"
+              ],
+              "query": [
+                {
+                  "key": "operation",
+                  "value": "divide"
+                },
+                {
+                  "key": "a",
+                  "value": "5"
+                },
+                {
+                  "key": "b",
+                  "value": "0"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
